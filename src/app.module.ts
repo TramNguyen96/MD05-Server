@@ -5,9 +5,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
-import { GatewayModule } from './gateway/gateway.module';
+import { GatewayModule } from './modules/gateway/gateway.module';
 import { AuthenModule } from './modules/authen/authen.module';
 import { UsersModule } from './modules/users/users.module';
+import { UploadsModule } from './modules/uploads/uploads.module';
+import { DiscordModule } from './modules/discord/discord.module';
 
 @Module({
   imports: [
@@ -26,7 +28,9 @@ import { UsersModule } from './modules/users/users.module';
     ProductsModule,
     GatewayModule,
     UsersModule,
-    AuthenModule
+    AuthenModule,
+    UploadsModule,
+    DiscordModule
   ],
   controllers: [AppController],
   providers: [AppService],

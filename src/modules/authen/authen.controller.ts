@@ -1,21 +1,41 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { AuthenService } from './authen.service';
-import { LoginDto } from './dto/login-authen.dto';
+import { AuthenDto } from './dto/authen.dto';
 import {Response} from 'express'
-import jwt from '../../utils/jwt';
+import {JwtService} from '../jwt/jwt';
 import * as  bcrypt from 'bcrypt'
+import { UsersService } from '../users/users.service';
 @Controller('authen')
 export class AuthenController {
-  constructor(private readonly authenService: AuthenService) {}
+  constructor(private readonly authenService: AuthenService, private readonly usersService: UsersService, private readonly jwt: JwtService) {}
 
-  @Post('login')
-  async create(@Body() body: LoginDto, @Res() res: Response) {
-    let serviceRes = await this.authenService.findByUserName(body.userName);
-    let check = await bcrypt.compare(body.password, serviceRes.password);
-    if(check) {
-      res.status(200).json({
-        token: jwt.createToken(serviceRes,"1d")
-      })
+  @Post()
+  async memberAuthen(@Body() authenDto: AuthenDto, @Res() res: Response) {
+    try{
+      let userDecode = this.jwt.verifyToken(authenDto.token)
+      // console.log("userDecode", userDecode);
+      
+      if(userDecode){
+        let serviceResUser = await this.usersService.findById(userDecode.id)
+        if(serviceResUser.status){
+          if(userDecode.updateAt == serviceResUser.data.updateAt){
+            return res.status(200).json(serviceResUser)
+          }
+        }
+      }
+      return res.status(213).json(
+        {
+          message: "Authen failed"
+        }
+      )
+
+    }catch(err){
+      return res.status(500).json(
+        {
+          message: "Controller Error"
+        }
+      )
+
     }
   }
 }
