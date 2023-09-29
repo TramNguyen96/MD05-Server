@@ -5,7 +5,18 @@ import { UpdateUploadDto } from './dto/update-upload.dto';
 @Injectable()
 export class UploadsService {
   create(createUploadDto: CreateUploadDto) {
-    return 'This action adds a new upload';
+    try{
+      return {
+        status: true,
+        message: "Upload success"
+      }
+      
+    }catch(err){
+      return {
+        status: false,
+        message: "Upload failed"
+      }
+    }
   }
 
   findAll() {

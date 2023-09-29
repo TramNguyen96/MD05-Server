@@ -39,8 +39,14 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  async findById(@Param('id') id: string, @Res() res: Response) {
+     try{
+      let serviceRes = await this.categoriesService.findById(id)
+      return res.status(serviceRes.status ? HttpStatus.OK : HttpStatus.ACCEPTED).json(serviceRes)
+
+    }catch(err){
+       throw new HttpException('Lỗi Controller', HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Patch(':id')

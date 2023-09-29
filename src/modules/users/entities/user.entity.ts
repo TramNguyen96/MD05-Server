@@ -1,7 +1,8 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as  bcrypt from 'bcrypt'
 import { UserRole, UserStatus } from "../users.enum";
-import { CustomerChat } from "src/modules/gateway/entities/customer.chat.entity";
+import { CustomerChats } from "src/modules/socket/customers/entities/customer.chat.entity";
+import { Receipt } from "src/modules/receipts/entities/receipt.entity";
 
 @Entity()
 export class User {
@@ -33,7 +34,7 @@ export class User {
     @Column()
     lastName: string;
 
-    @Column({default: "https://png.pngtree.com/png-clipart/20210608/ourmid/pngtree-gray-silhouette-avatar-png-image_3418406.jpg"})
+    @Column({default: "https://icon-library.com/images/avatar-icon-png/avatar-icon-png-15.jpg"})
     avatar: string;
 
      @Column({ type: 'enum', enum: UserRole, default: UserRole.MEMBER })
@@ -57,6 +58,12 @@ export class User {
         this.updateAt = String(Date.now());
     }
 
-    @OneToMany(() => CustomerChat, (customerChat) => customerChat.user)
-    customerChat: CustomerChat[];
+    @OneToMany(() => CustomerChats, (customerChats) => customerChats.user)
+    customerChat: CustomerChats[];
+
+   @OneToMany(() => CustomerChats, (customerChats) => customerChats.admin)
+    adminChats: CustomerChats[];
+
+    @OneToMany(() => Receipt, (receipts) => receipts.user)
+    receipts: Receipt[];
 }

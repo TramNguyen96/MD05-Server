@@ -5,11 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
-import { GatewayModule } from './modules/gateway/gateway.module';
 import { AuthenModule } from './modules/authen/authen.module';
 import { UsersModule } from './modules/users/users.module';
 import { UploadsModule } from './modules/uploads/uploads.module';
-import { DiscordModule } from './modules/discord/discord.module';
+import { SocketModule } from './modules/socket/socket.module';
+import { ProductOptionsModule } from './modules/product-options/product-options.module';
+import { OptionPicturesModule } from './modules/option-pictures/option-pictures.module';
+import { ReceiptsModule } from './modules/receipts/receipts.module';
+import { ReceiptDetailModule } from './modules/receipt-detail/receipt-detail.module';
 
 @Module({
   imports: [
@@ -26,11 +29,14 @@ import { DiscordModule } from './modules/discord/discord.module';
     }),
     CategoriesModule,
     ProductsModule,
-    GatewayModule,
     UsersModule,
     AuthenModule,
     UploadsModule,
-    DiscordModule
+    ProductOptionsModule,
+    OptionPicturesModule,
+    ReceiptsModule,
+    ReceiptDetailModule,
+    SocketModule
   ],
   controllers: [AppController],
   providers: [AppService],

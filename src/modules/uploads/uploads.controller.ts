@@ -7,13 +7,18 @@ import { uploadFileToStorage } from '../../firebase'
 export class UploadsController {
   constructor(private readonly uploadService: UploadsService) { }
 
-  @Post('/many')
+  @Post()
   @UseInterceptors(FilesInterceptor('imgs'))
-  async create2(@Body() body: any, @UploadedFiles() imgs: Array<Express.Multer.File>) {
-    console.log("imgs", imgs)
-    let url = await uploadFileToStorage(imgs, "many", imgs[1].buffer)
-    console.log("url", url)
-    return {message: "Ok"};
+  async create(@Body() body: any, @UploadedFiles() imgs: Array<Express.Multer.File>) {
+    try{
+      let url = await uploadFileToStorage(imgs, "many", imgs[1].buffer)
+      return {message: "Ok"}
+    }catch(err){
+      return {message: "Failed"};
+      
+    }
+    // console.log("imgs", imgs)
+    // console.log("url", url)
   }
 
   // @Post()

@@ -21,12 +21,12 @@ export class CustomerGateWay implements OnModuleInit{
             // console.log(`Client co socket id la: ${socket.id} vua ket noi`);
             let userDecode = this.jwt.verifyToken(String(socket.handshake.query.token))
 
-            console.log("userDecode", userDecode);
+            // console.log("userDecode", userDecode);
             
-            this.discord.createTextChannel(String(userDecode.firstName +" "+ userDecode.lastName))
-             console.log(`Client có socket id là: ${socket.id} vừa kết nối!`)
+            // this.discord.createTextChannel(String(userDecode.firstName +" "+ userDecode.lastName))
+            //  console.log(`Client có socket id là: ${socket.id} vừa kết nối!`)
 
-             socket.emit("connectStatus", `Chào mừng ${String(userDecode.firstName +" "+ userDecode.lastName)} đã kết nối!`)
+            //  socket.emit("connectStatus", `Chào mừng ${String(userDecode.firstName +" "+ userDecode.lastName)} đã kết nối!`)
         })
     }
     

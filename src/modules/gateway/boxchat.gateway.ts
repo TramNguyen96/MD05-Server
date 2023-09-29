@@ -12,17 +12,17 @@ export class BoxchatGateWay implements OnModuleInit {
 
     onModuleInit() {
         this.server.on('connection', (socket) => {
-            console.log("socketid của user vừa login", socket.id)
+            // console.log("socketid của user vừa login", socket.id)
 
             socket.on('disconnect', () => {
-                this.server.emit("loadMessage", `Tam biệt user có socketid là: ${socket.id}`)
+                // this.server.emit("loadMessage", `Tam biệt user có socketid là: ${socket.id}`)
             });
         })
     }
 
     @SubscribeMessage('newMessage')
     onNewMessage(@MessageBody() body: any) {
-        console.log("body", body)
+        // console.log("body", body)
         this.server.emit("loadMessage", body)
     }
 }

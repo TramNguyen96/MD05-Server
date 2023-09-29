@@ -41,8 +41,24 @@ export class CategoriesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findById(id: string) {
+    try{
+      let category = await this.categoriesRepository.find({
+        where: {
+          id
+        },
+        relations:{
+          products: true
+        }
+      })
+      return {
+        status : true ,
+        message:"Get product by id success",
+        data: category
+      }
+    }catch(err){
+      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
+    }
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {

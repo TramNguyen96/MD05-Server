@@ -1,5 +1,6 @@
 import { Category } from "src/modules/categories/entities/category.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ProductOption } from "src/modules/product-options/entities/product-option.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -20,7 +21,16 @@ export class Product {
     })
     categoryId: string;
 
-    @ManyToOne((type) => Category, (category) => category.products)
-    // @JoinColumn({ name: "categoryId" })
+    @ManyToOne(() => Category, (category) => category.products)
     category: Category
+
+    // @Column('float')
+    // price: number;
+
+    @Column({default: false})
+    bestSeller: boolean;
+
+    @OneToMany(() => ProductOption, (option) => option.product)
+    options: ProductOption[];
+
 }

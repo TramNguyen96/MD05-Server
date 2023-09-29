@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Allow, IsString, MinLength } from "class-validator";
+import { StringFormat } from "firebase/storage";
 
 export class CreateProductDto {
 
@@ -10,10 +11,19 @@ export class CreateProductDto {
 
     @ApiProperty()
     @Allow()
+    price: number
+
+    @ApiProperty()
+    @Allow()
     des?: string
 
     @ApiProperty()
     @Allow()
     @IsString()
-    categoryId: string
+    categoryId: StringFormat
+
+    // @ApiProperty()
+    // @Allow()
+    // @IsString()
+    // avatar: string
 }

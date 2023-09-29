@@ -15,67 +15,76 @@ export class ProductsService {
   
   async create(createProductDto: CreateProductDto) {
     try{
+
       let newProduct = await this.productRepository.save(createProductDto)
-      return {
-        status : true ,
-        message:"Create new product success",
-        data: newProduct
+
+      if(!newProduct){
+        return {
+          status : false ,
+          message:"Create new product failed",
+          data: null
+        }
       }
 
-    }catch(err){
+      let newProductDetail = await this.productRepository.findOne({
+          where: {
+            id: newProduct.id
+          },
+          relations: {
+           options: {
+            pictures: true
+           }
+          }
+        })
+
+        if(newProductDetail){
+          return {
+            status : true ,
+            message:"Create new product success",
+            data: newProductDetail
+          }
+        }else{
+        return {
+          status : false ,
+          message:"Create new product failed",
+          data: null
+        }
+      }
+        
+        
+      }catch(err){
+      console.log("err", err);
       throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
     }
+
   }
 
   async findAll() {
     try{
-      let products = await this.productRepository.find()
-      return {
-        status : true ,
-        message:"Get all product success",
-        data: products
+      let products = await this.productRepository.find({
+        relations: {
+          options: {
+            pictures: true
+          }
+        }
+      })
+      if(products){
+          return {
+            status : true ,
+            message:"Get all product success",
+            data: products
+          }
+      }else{
+        return {
+          status : false ,
+          message:"Get all product failed",
+          data: null
+        }
       }
-
-    }catch(err){
-      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
-    }
-  }
-
-  async findOne(id: string) {
-    try{
-      let product = await this.productRepository.findOneBy({id})
-      return {
-        status : true ,
-        message:"Get product by id success",
-        data: product
-      }
-    }catch(err){
-      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
-    }
-  }
-
-  async update(id: string, updateProductDto: UpdateProductDto) {
-    try{
-      let productUpdate = await this.productRepository.update({id},updateProductDto )
       
-      return {
-        status : true ,
-        message:"Update product by id success",
-      }
-    }catch(err){
-      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
-    }
-  }
 
-  async remove(id: string) {
-    try{
-      let product = await this.productRepository.delete({id})
-      return {
-        status : true ,
-        message:"Get product by id success",
-        data: product
-      }
     }catch(err){
+      
       throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
     }
   }
