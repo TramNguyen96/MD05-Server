@@ -43,13 +43,19 @@ export class Receipt {
     @Column()
     creatAt: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     accepted: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     shippAt: string;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     doneAt: string;
 
     @BeforeInsert()

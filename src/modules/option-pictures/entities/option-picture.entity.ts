@@ -15,4 +15,7 @@ export class OptionPicture {
 
     @Column()
     icon: string;
+
+    @Column()
+    avatar: string;
 }

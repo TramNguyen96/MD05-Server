@@ -33,4 +33,15 @@ export class ProductsController {
        throw new HttpException('Lỗi Controller', HttpStatus.BAD_REQUEST);
     }
   }
+
+  @Get(':productId')
+  async findById(@Res() res: Response, @Param('productId') productId: string) {
+    try{
+      let serviceRes = await this.productsService.findById(productId)
+      return res.status(serviceRes.status ? HttpStatus.OK : HttpStatus.ACCEPTED).json(serviceRes)
+
+    }catch(err){
+       throw new HttpException('Lỗi Controller', HttpStatus.BAD_REQUEST);
+    }
+  }
 }

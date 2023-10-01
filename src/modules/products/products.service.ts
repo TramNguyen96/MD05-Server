@@ -31,9 +31,10 @@ export class ProductsService {
             id: newProduct.id
           },
           relations: {
-           options: {
-            pictures: true
-           }
+            category: true,
+            options: {
+              pictures: true
+            }
           }
         })
 
@@ -88,4 +89,40 @@ export class ProductsService {
       throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
     }
   }
+
+  async findById(productId: string) {
+    try{
+      let products = await this.productRepository.findOne({
+        where: {
+          id: productId
+        },
+        relations:{
+          options: {
+            product: true,
+            pictures: true
+          }
+        }
+      })
+      if(products){
+          return {
+            status : true ,
+            message:"Get product by id success",
+            data: products
+          }
+      }else{
+        return {
+          status : false ,
+          message:"Get product by id failed",
+          data: null
+        }
+      }
+      
+
+    }catch(err){
+      
+      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
+    }
+  }
+
+  
 }

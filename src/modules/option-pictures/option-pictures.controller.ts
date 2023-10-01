@@ -22,9 +22,13 @@ export class OptionPicturesController {
 
     for(let i in files){
       let url = await uploadFileToStorage(files[i], 'products', files[i].buffer)
+
+      let ava = await uploadFileToStorage(files[0], "avatar", files[0].buffer)
+      
       pictures.unshift({
         optionId,
-        icon: url ? url : "https://static.thenounproject.com/png/504708-200.png"
+        icon: url ? url : "https://static.thenounproject.com/png/504708-200.png",
+        avatar: ava
       })
       
     }

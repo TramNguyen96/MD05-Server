@@ -9,9 +9,9 @@ export class CreateProductDto {
     @MinLength(3) 
     name: string;
 
-    @ApiProperty()
-    @Allow()
-    price: number
+    // @ApiProperty()
+    // @Allow()
+    // price: number
 
     @ApiProperty()
     @Allow()
