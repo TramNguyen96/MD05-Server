@@ -48,7 +48,15 @@ export class CategoriesService {
           id
         },
         relations:{
-          products: true
+          products: {
+            options: {
+              product: {
+                category:true
+              },
+              pictures: true
+            }
+          }
+          
         }
       })
       return {

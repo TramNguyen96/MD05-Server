@@ -40,6 +40,28 @@ export class Receipt {
     })
     status: ReceiptStatus
 
+    @Column({
+        default: false
+    })
+    paid: boolean
+
+    @Column({
+        type: "enum",
+        enum: PayMode,
+        default: PayMode.CASH
+    })
+    payMode: PayMode
+
+    @Column({
+        nullable: true
+    })
+    paidAt: string
+
+    @Column({
+        nullable: true
+    })
+    zaloTranId: string
+
     @Column()
     creatAt: string;
 

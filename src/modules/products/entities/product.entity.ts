@@ -4,7 +4,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 
 @Entity()
 export class Product {
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn('increment')
     id: string;
 
     @Column()

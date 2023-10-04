@@ -9,9 +9,13 @@ interface MailOption{
 }
 
 import emailConfirm from './templates/emailConfirm'
+import emailChangePass from './templates/emailChangePass'
+import emailResetPass from'./templates/emailResetPass'
 
 export const templates = {
-    emailConfirm
+    emailConfirm,
+    emailChangePass,
+    emailResetPass
 }
 
 @Injectable()

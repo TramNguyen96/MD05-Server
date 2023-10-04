@@ -7,7 +7,7 @@ export class DiscordBotSocket implements OnModuleInit {
 
     client: Client;
 
-    botToken: string = "MTE1Mzk4ODU2MDUzNDM3MjM2Mg.GONRaf.rs8bqnhgninLUE7yw1u-V9k1q2hOyl33vuwxeA"
+    botToken: string = "MTE1Mzk4ODU2MDUzNDM3MjM2Mg"
 
     guildId: string = "1153990130038755359"
 

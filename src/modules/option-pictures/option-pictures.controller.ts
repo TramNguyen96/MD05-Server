@@ -25,7 +25,7 @@ export class OptionPicturesController {
 
       let ava = await uploadFileToStorage(files[0], "avatar", files[0].buffer)
       
-      pictures.unshift({
+      pictures.push({
         optionId,
         icon: url ? url : "https://static.thenounproject.com/png/504708-200.png",
         avatar: ava

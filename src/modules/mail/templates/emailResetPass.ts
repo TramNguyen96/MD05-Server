@@ -23,10 +23,10 @@ var email = {
         name: mailBody.receiverName,
         intro: `Welcome to ${mailBody.productName}! We\'re very excited to have you on board.`,
         action: {
-            instructions: `To change password with ${mailBody.productName}, please click here:`,
+            instructions: `To reset password with ${mailBody.productName}, please click here:`,
             button: {
                 color: '#22BC66', // Optional action button color
-                text: 'Change password your email',
+                text: 'Reset password your email',
                 link:  mailBody.confirmLink
             }
         },

@@ -4,8 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UpdateSerRes } from './users.interface';
+import { FindByIdSerRes, UpdateSerRes } from './users.interface';
 import emailValidate from '../utils/emailValidate';
+import { CreateGoogleDto } from './dto/create-google.dto';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class UsersService {
       return {
         status : true ,
         message:"Create new user success",
-        data: newUser
+        data: hashUser
       }
 
     }catch(err){
@@ -34,8 +35,46 @@ export class UsersService {
     }
   }
 
-  findAll() {
-    return `This action returns all users`;
+   async createGoogle(createGoogleDto: CreateGoogleDto) {
+    try {
+      let newUser = this.userRepository.create(createGoogleDto)
+      let results = await this.userRepository.save(newUser);
+      return {
+        status: true,
+        message: "Create user successfully",
+        data: newUser
+      };
+    } catch (err) {
+      return {
+        status: false,
+        message: "Faild",
+        data: null
+      }
+    }
+  }
+
+
+  async findAll() {
+    try{
+      let result = await this.userRepository.find()
+
+      if(!result){
+        throw new Error
+      }
+
+      return {
+        status:true,
+        message:'Get all user Success!',
+        data: result
+      }
+
+    }catch(err){
+      return {
+        status:false,
+        message:'Service Error',
+        data: null
+      }
+    }
   }
 
   async findById(userId: string) {
@@ -60,7 +99,7 @@ export class UsersService {
 
     }catch(err){
       return {
-        status:true,
+        status:false,
         message:'Service Error',
         data: null
       }
@@ -94,7 +133,7 @@ export class UsersService {
     }
   }
 
-  async findByEmailOrUserName(emailOrUserName: string) {
+  async findByEmailOrUserName(emailOrUserName: string): Promise<FindByIdSerRes> {
     try {
       let result = await this.userRepository.findOne({
         where: emailValidate.isEmail(emailOrUserName)
@@ -125,4 +164,33 @@ export class UsersService {
     }
   }
 
+  async findByUserName(userName: string): Promise<FindByIdSerRes> {
+    try {
+      let result = await this.userRepository.findOne({
+        where: {
+            userName
+          }
+      });
+      console.log("result", result);
+
+
+      if (!result) {
+        throw new Error
+      }
+
+      return {
+        status: true,
+        data: result,
+        message: "Find user ok!"
+      }
+    } catch (err) {
+      return {
+        status: false,
+        data: null,
+        message: "Lỗi model"
+      }
+    }
+  }
+
+ 
 }

@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 
 @Injectable()
@@ -58,6 +58,30 @@ export class ProductsService {
       throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
     }
 
+  }
+
+  async search(searchKey: string) {
+    try{
+      const search = await this.productRepository.find({
+        where: {
+          name: ILike(`%${searchKey}%`),
+        },
+        relations: {
+          options: {
+            product: true,
+            pictures: true
+          }
+        }
+      })
+      return {
+        status : true ,
+        message :"Search Success",
+        data    :  search
+      }
+
+    }catch(err){
+      throw new  HttpException("Lỗi Model", HttpStatus.BAD_REQUEST)
+    }
   }
 
   async findAll() {
@@ -124,5 +148,18 @@ export class ProductsService {
     }
   }
 
+  async remove(id: number) {
+    try {
+      let productId = await this.productRepository.delete(id)
+      return {
+        message: "Delete success",
+        data: productId
+      }
+    } catch (err) {
+      throw new HttpException('loi model', HttpStatus.BAD_REQUEST)
+    }
+  }
+
+  
   
 }

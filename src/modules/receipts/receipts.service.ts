@@ -1,40 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
+import { UpdateReceiptDto } from './dto/update-receipt.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Receipt } from './entities/receipt.entity';
 import { Repository } from 'typeorm';
-import { AddToCartDto } from './dto/add-to-cart.dto';
-import { ReceiptStatus } from './receipts.enum';
+import { Receipt } from './entities/receipt.entity';
 
 @Injectable()
-export class ReceiptsService {
+export class ReceiptService {
 
-  constructor(@InjectRepository(Receipt) private readonly receiptRepository: Repository<Receipt>){}
+  constructor(
+    @InjectRepository(Receipt)
+    private receiptRepository: Repository<Receipt>,
+  ) { }
 
-  addToCart(newReceipt: AddToCartDto){
-    return {
-      status: true,
-      message: "OK"
-    }
+  create(createReceiptDto: CreateReceiptDto) {
+    return 'This action adds a new receipt';
   }
 
-  async findShoppingCart(userId: string) {
-    try{
-      let shoppingCart = await this.receiptRepository.find({
-        where: {
-          userId,
-          // status: ReceiptStatus.SHOPPING
+  async findAll() {
+    try {
+      let receipts = await this.receiptRepository.find({
+        relations: {
+          detail: {
+            option: {
+              product: true,
+              pictures: true
+            }
+          }
         }
       })
-
-      if(shoppingCart.length == 0){
-        return false
+      return {
+        message: "find receipt success",
+        data: receipts
       }
-      return shoppingCart[0]
-
-    }catch(err){
-      return false
+    } catch (err) {
+      throw new HttpException('loi model', HttpStatus.BAD_REQUEST)
     }
   }
 
+  async findOne(id: string) {
+    try {
+      let receiptDetail = await this.receiptRepository.findOne({
+        where: { id },
+        relations: {
+          detail: {
+            option: {
+              product: true,
+              pictures: true
+            }
+          }
+        }
+      })
+      return {
+        message: "get product success",
+        data: receiptDetail
+      }
+    } catch (err) {
+      throw new HttpException('loi model', HttpStatus.BAD_REQUEST)
+    }
+  }
+
+  update(id: number, updateReceiptDto: UpdateReceiptDto) {
+    return `This action updates a #${id} receipt`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} receipt`;
+  }
 }

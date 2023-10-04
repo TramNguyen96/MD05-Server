@@ -70,7 +70,7 @@ export class CustomerChatSocket implements OnModuleInit {
                       discordChannelId: newClient.discordChannelId,
                       time: String(Date.now()),
                       userId: user.id,
-                      adminId: "a72420d8-08bc-43f8-89b2-eedb704dda9f"
+                      adminId: process.env.CHATBOX_ADMINID
                     }
 
                     let newChatHistory = await this.customerChatService.createChat(chat);
@@ -107,7 +107,7 @@ export class CustomerChatSocket implements OnModuleInit {
           discordChannelId: client.discordChannelId,
           time: String(Date.now()),
           userId: client.user.id,
-          adminId: "a72420d8-08bc-43f8-89b2-eedb704dda9f"
+          adminId: process.env.CHATBOX_ADMINID
         }
 
         let listChatHistory = await this.customerChatService.createChat(chat);
